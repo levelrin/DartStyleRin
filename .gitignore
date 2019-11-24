@@ -1,0 +1,25 @@
+# Files and directories created by pub
+.dart_tool/
+.packages
+.pub/
+build/
+pubspec.lock
+
+# API documentation directory created by dartdoc
+doc/api/
+
+# Files and directories created by other development environments
+*.iml
+*.ipr
+*.iws
+.idea/
+.DS_Store
+
+# Coverage report
+coverage/
+
+# Coverage badge
+coverage_badge.svg
+
+# Test coverage file
+.test_coverage.dart
