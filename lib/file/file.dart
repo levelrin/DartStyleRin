@@ -30,11 +30,10 @@ class File {
   /// For logging.
   final Log _log;
 
-  /// Check the file whether it is formatted correctly or not.
-  /// It will return the exit code.
-  /// 0 means the file is correctly formatted.
-  /// 2 means the file is not corrected formatted.
-  int check() {
+  /// Apply [Rules] to check the file.
+  /// True means the file is correctly formatted.
+  /// False means not.
+  bool check() {
     _log.debug(this, 'check()', 'Let Rules to check the source.');
     return _rules.check(
       Source(
@@ -44,18 +43,18 @@ class File {
     );
   }
 
-  /// Format the file.
-  /// It will return the exit code.
-  /// 0 means success.
-  /// 2 means errors.
-  int format() {
+  /// Apply [Rules] to format the file.
+  void format() {
     _log.debug(this, 'format()', 'Let Rules to format the source.');
-    return _rules.format(
-      Source(
-        _ioFile.readAsStringSync(),
-        _log
-      )
+    _ioFile.writeAsStringSync(
+      _rules.format(
+        Source(
+          _ioFile.readAsStringSync(),
+          _log
+        )
+      ).toString()
     );
+    _log.debug(this, 'format()', 'End rewritting the file.');
   }
 
 }

@@ -12,17 +12,14 @@ import '../source/source.dart';
 abstract class Rule {
 
   /// Check the source code whether it is formatted correctly or not.
-  /// It will return the exit code.
-  /// 0 means the source code is correctly formatted.
-  /// 2 means the source code is not corrected formatted.
+  /// True means the code is correctly formatted.
+  /// False mans not.
   /// [source] Target source code.
-  int check(final Source source);
+  bool check(final Source source);
 
   /// Format the source code.
-  /// It will return the exit code.
-  /// 0 means success.
-  /// 2 means errors.
+  /// It will return the formatted [Source].
   /// [source] Target source code.
-  int format(final Source source);
+  Source format(final Source source);
 
 }

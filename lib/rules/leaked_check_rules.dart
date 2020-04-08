@@ -26,12 +26,12 @@ class LeakedCheckRules implements Rules {
   final Function _callback;
 
   @override
-  int check(final Source source) {
+  bool check(final Source source) {
     return _callback(source);
   }
 
   @override
-  int format(final Source source) {
+  Source format(final Source source) {
     return _origin.format(source);
   }
 

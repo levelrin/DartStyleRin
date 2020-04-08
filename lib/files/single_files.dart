@@ -29,7 +29,7 @@ class SingleFiles implements Files {
   final Log _log;
 
   @override
-  int check() {
+  bool check() {
     _log.debug(
       this,
       'check()',
@@ -51,7 +51,7 @@ class SingleFiles implements Files {
   }
 
   @override
-  int format() {
+  void format() {
     _log.debug(
       this,
       'format()',

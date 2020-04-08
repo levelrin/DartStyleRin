@@ -6,7 +6,8 @@
  */
 
 import 'package:dart_style_rin/log/silent_log.dart';
-import 'package:dart_style_rin/rule/leaked_code_rule.dart';
+import 'package:dart_style_rin/rule/confirmable_rule.dart';
+import 'package:dart_style_rin/rule/leaked_check_rule.dart';
 import 'package:dart_style_rin/rule/rule.dart';
 import 'package:dart_style_rin/rules/rules.dart';
 import 'package:dart_style_rin/source/ignored_source.dart';
@@ -14,33 +15,29 @@ import 'package:test/test.dart';
 
 void main() {
   group('Rules', () {
-    test('.check() should return 2 if the source violates any rule.', () {
+    test('.check() should return false if the source violates any rule.', () {
       expect(
         Rules(
-          const <Rule>[
-            LeakedCodeRule(0),
-            LeakedCodeRule(2)
+          <Rule>[
+            LeakedCheckRule.throwable(true),
+            LeakedCheckRule.throwable(false)
           ],
           SilentLog()
         ).check(
           IgnoredSource()
         ),
-        2
+        false
       );
     });
     test('.format() should return 2 if there was any erros on formatting.', () {
-      expect(
-        Rules(
-          const <Rule>[
-            LeakedCodeRule(0),
-            LeakedCodeRule(2)
-          ],
-          SilentLog()
-        ).format(
-          IgnoredSource()
-        ),
-        2
+      final ConfirmableRule rule = ConfirmableRule();
+      Rules(
+        <Rule>[rule],
+        SilentLog()
+      ).format(
+        IgnoredSource()
       );
+      expect(rule.formatCalled, true);
     });
   });
 }

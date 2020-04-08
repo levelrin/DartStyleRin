@@ -5,13 +5,13 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
-import 'rules.dart';
+import 'file.dart';
 
 /// It's for testings.
 /// No methods should be used from this object.
 /// It will throw exceptions if any method is called.
 /// You can use this when you need something just to fill out the parameters.
-class IgnoredRules implements Rules {
+class IgnoredFile implements File {
 
   @override
   dynamic noSuchMethod(final Invocation invocation) {

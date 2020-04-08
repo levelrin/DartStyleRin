@@ -24,7 +24,7 @@ class CurrentFiles implements Files {
   final Log _log;
 
   @override
-  int check() {
+  bool check() {
     final io.Directory dir = io.Directory.current;
     _log.debug(
       this,
@@ -41,7 +41,7 @@ class CurrentFiles implements Files {
   }
 
   @override
-  int format() {
+  void format() {
     final io.Directory dir = io.Directory.current;
     _log.debug(
       this,

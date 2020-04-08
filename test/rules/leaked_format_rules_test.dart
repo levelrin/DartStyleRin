@@ -21,7 +21,7 @@ void main() {
           IgnoredRules(),
           (Source source) {
             used = true;
-            return 0;
+            return true;
           }
         ),
         (Source source) {
@@ -38,7 +38,7 @@ void main() {
         IgnoredRules(),
         (Source source) {
           used = true;
-          return 0;
+          return IgnoredSource();
         }
       ).format(
         IgnoredSource()

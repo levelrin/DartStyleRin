@@ -26,17 +26,32 @@ class Command {
   /// Run the formatting command.
   /// It returns the exit code to tell us the result of command.
   /// 0 means success.
-  /// 1 means warnings.
+  /// 1 means warnings (we do not have this case yet).
   /// 2 means errors.
   int run() {
     _log.debug(this, 'run()', 'Start running command.');
     int exitCode;
     if (_args.check()) {
-      exitCode = _args.files(_log).check();
+      exitCode = _check();
     } else {
-      exitCode = _args.files(_log).format();
+      _args.files(_log).format();
+      exitCode = 0;
     }
     _log.debug(this, 'run()', 'End command. exitCode: $exitCode');
+    return exitCode;
+  }
+
+  /// Let [Files] to check if everything is formatted correctly.
+  /// It returns the exit code.
+  /// 0 means all the files are correctly formatted.
+  /// 2 means not.
+  int _check() {
+    _log.debug(this, '_check()', 'Let Files to check itself.');
+    int exitCode = 2;
+    if (_args.files(_log).check()) {
+      exitCode = 0;
+    }
+    _log.debug(this, '_check()', 'Files is done chekcing itself. exitCode: $exitCode');
     return exitCode;
   }
 

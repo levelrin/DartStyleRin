@@ -20,7 +20,7 @@ void main() {
         IgnoredRules(),
         (Source source) {
           used = true;
-          return 0;
+          return true;
         }
       ).check(
         IgnoredSource()
@@ -34,7 +34,7 @@ void main() {
           IgnoredRules(),
           (Source source) {
             used = true;
-            return 0;
+            return IgnoredSource();
           }
         ),
         (Source source) {
