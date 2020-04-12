@@ -39,11 +39,11 @@ class Files {
     final List<io.FileSystemEntity> entities = _dir.listSync(recursive: true);
     int dartFileAmount = 0;
     int issueAmount = 0;
-    for (final io.File ioFile in entities) {
-      if (ioFile.path.endsWith('.dart')) {
+    for (final io.FileSystemEntity entity in entities) {
+      if (entity is io.File && entity.path.endsWith('.dart')) {
         dartFileAmount++;
         final File file = _fileFactory(
-          ioFile,
+          entity,
           _log
         );
         if (!file.check()) {
@@ -66,11 +66,11 @@ class Files {
     final List<io.FileSystemEntity> entities = _dir.listSync(recursive: true);
     int dartFileAmount = 0;
     int formatAmount = 0;
-    for (final io.File ioFile in entities) {
-      if (ioFile.path.endsWith('.dart')) {
+    for (final io.FileSystemEntity entity in entities) {
+      if (entity is io.File && entity.path.endsWith('.dart')) {
         dartFileAmount++;
         final File file = _fileFactory(
-          ioFile,
+          entity,
           _log
         );
         if (!file.check()) {

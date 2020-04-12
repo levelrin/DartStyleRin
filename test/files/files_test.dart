@@ -12,6 +12,7 @@ import 'package:dart_style_rin/file/leaked_check_file.dart';
 import 'package:dart_style_rin/file/silent_file.dart';
 import 'package:dart_style_rin/files/files.dart';
 import 'package:dart_style_rin/io/directory/leaked_entities_dir.dart';
+import 'package:dart_style_rin/io/directory/silent_dir.dart';
 import 'package:dart_style_rin/io/file/leaked_path_io_file.dart';
 import 'package:dart_style_rin/log/log.dart';
 import 'package:dart_style_rin/log/silent_log.dart';
@@ -82,6 +83,38 @@ void main() {
           SilentLog()
         ).check(),
         false
+      );
+    });
+    test('.check() should not throw an exception if the directory contains subdirectory.', () {
+      expect(
+        () => Files(
+          LeakedEntitiesDir(
+            <io.FileSystemEntity>[
+              SilentDir()
+            ]
+          ),
+          (io.File ioFile, Log log) {
+            return SilentFile();
+          },
+          SilentLog()
+        ).check(),
+        returnsNormally
+      );
+    });
+    test('.format() should not throw an exception if the directory contains subdirectory.', () {
+      expect(
+          () => Files(
+          LeakedEntitiesDir(
+            <io.FileSystemEntity>[
+              SilentDir()
+            ]
+          ),
+          (io.File ioFile, Log log) {
+            return SilentFile();
+          },
+          SilentLog()
+        ).format(),
+        returnsNormally
       );
     });
   });
