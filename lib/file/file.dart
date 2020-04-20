@@ -7,6 +7,7 @@
 
 import 'dart:io' as io;
 import '../log/log.dart';
+import '../report/report.dart';
 import '../rules/rules.dart';
 import '../source/source.dart';
 
@@ -30,32 +31,39 @@ class File {
   /// For logging.
   final Log _log;
 
-  /// Check the file whether it is formatted correctly or not.
-  /// It will return the exit code.
-  /// 0 means the file is correctly formatted.
-  /// 2 means the file is not corrected formatted.
-  int check() {
-    _log.debug(this, 'check()', 'Let Rules to check the source.');
-    return _rules.check(
+  /// Apply [Rules] to check the file.
+  /// True means the file is correctly formatted.
+  /// False means not.
+  bool check() {
+    _log.debug(this, 'check()', 'Start checking the source with Rules.');
+    final Report report = _rules.check(
       Source(
         _ioFile.readAsStringSync(),
         _log
       )
     );
+    bool pass = true;
+    if (!report.pass()) {
+      _log.info('Issues on ${_ioFile.path}:');
+      report.print();
+      _log.info('');
+      pass = false;
+    }
+    return pass;
   }
 
-  /// Format the file.
-  /// It will return the exit code.
-  /// 0 means success.
-  /// 2 means errors.
-  int format() {
+  /// Apply [Rules] to format the file.
+  void format() {
     _log.debug(this, 'format()', 'Let Rules to format the source.');
-    return _rules.format(
-      Source(
-        _ioFile.readAsStringSync(),
-        _log
-      )
+    _ioFile.writeAsStringSync(
+      _rules.format(
+        Source(
+          _ioFile.readAsStringSync(),
+          _log
+        )
+      ).toString()
     );
+    _log.debug(this, 'format()', 'End rewritting the file.');
   }
 
 }

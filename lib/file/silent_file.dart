@@ -12,13 +12,13 @@ import 'file.dart';
 class SilentFile implements File {
 
   @override
-  int check() {
-    return 0;
+  bool check() {
+    return true;
   }
 
   @override
-  int format() {
-    return 0;
+  void format() {
+    // Do nothing.
   }
 
 }

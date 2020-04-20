@@ -5,7 +5,6 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
-import '../source/source.dart';
 import 'rules.dart';
 
 /// It's for testings.
@@ -15,13 +14,8 @@ import 'rules.dart';
 class IgnoredRules implements Rules {
 
   @override
-  int check(final Source source) {
-    throw UnsupportedError('You should not use this method.');
-  }
-
-  @override
-  int format(final Source source) {
-    throw UnsupportedError('You should not use this method.');
+  dynamic noSuchMethod(final Invocation invocation) {
+    throw UnsupportedError('You are not supposed to use this.');
   }
 
 }

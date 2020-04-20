@@ -5,21 +5,21 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
-import 'package:dart_style_rin/files/leaked_code_files.dart';
+import 'package:dart_style_rin/file/ignored_file.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('LeakedCodeFiles', () {
-    test('.check() should return the injected exit code.', () {
+  group('IgnoredFile', () {
+    test('.check() should throw an exception.', () {
       expect(
-        LeakedCodeFiles(0, 2).check(),
-        0
+        () => IgnoredFile().check(),
+        throwsUnsupportedError
       );
     });
-    test('.format() should return the injected exit code.', () {
+    test('.format() should throw an exception.', () {
       expect(
-        LeakedCodeFiles(0, 2).format(),
-        2
+          () => IgnoredFile().format(),
+        throwsUnsupportedError
       );
     });
   });

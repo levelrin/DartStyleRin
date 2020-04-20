@@ -29,83 +29,59 @@ class Files {
   /// For logging.
   final Log _log;
 
-  /// Check the files whether they are formatted correctly or not.
-  /// It will return the exit code.
-  /// 0 means all files are correctly formatted.
-  /// 2 means not all files are correctly formatted.
+  /// Iterate the [File]s and let them check themselves.
+  /// True means all [File]s say there is no formatting issues.
+  /// False means not.
   ///
   /// It will print "x out of n files are not correctly formatted."
-  int check() {
+  bool check() {
     _log.debug(this, 'check()', 'Start checking the files.');
-    final List<int> exitCodes = <int>[];
     final List<io.FileSystemEntity> entities = _dir.listSync(recursive: true);
-    for (final io.File ioFile in entities) {
-      if (ioFile.path.endsWith('.dart')) {
+    int dartFileAmount = 0;
+    int issueAmount = 0;
+    for (final io.FileSystemEntity entity in entities) {
+      if (entity is io.File && entity.path.endsWith('.dart')) {
+        dartFileAmount++;
         final File file = _fileFactory(
-          ioFile,
+          entity,
           _log
         );
-        exitCodes.add(
-          file.check()
-        );
+        if (!file.check()) {
+          issueAmount++;
+        }
       }
     }
     _log
-      ..info('${_defectAmount(exitCodes)} out of ${exitCodes.length} files are not correctly formatted.')
+      ..info('$issueAmount out of $dartFileAmount files are not correctly formatted.')
       ..debug(this, 'check()', 'End checking the files.');
-    return _exitCode(exitCodes);
+    return issueAmount == 0;
   }
 
-  /// Format the files.
-  /// It will return the exit code.
-  /// 0 means success.
-  /// 2 means errors.
+  /// Iterate the [File]s and let them format themselves.
+  /// Before each file formats itself, it will check if the file is already formatted or not.
   ///
   /// It will print "x out of n files are formatted."
-  int format() {
+  void format() {
     _log.debug(this, 'check()', 'Start formatting the files.');
-    final List<int> exitCodes = <int>[];
     final List<io.FileSystemEntity> entities = _dir.listSync(recursive: true);
-    for (final io.File ioFile in entities) {
-      if (ioFile.path.endsWith('.dart')) {
+    int dartFileAmount = 0;
+    int formatAmount = 0;
+    for (final io.FileSystemEntity entity in entities) {
+      if (entity is io.File && entity.path.endsWith('.dart')) {
+        dartFileAmount++;
         final File file = _fileFactory(
-          ioFile,
+          entity,
           _log
         );
-        exitCodes.add(
-          file.format()
-        );
+        if (!file.check()) {
+          file.format();
+          formatAmount++;
+        }
       }
     }
     _log
-      ..info('${_defectAmount(exitCodes)} out of ${exitCodes.length} files are formatted.')
+      ..info('$formatAmount out of $dartFileAmount files are formatted.')
       ..debug(this, 'check()', 'End formatting the files.');
-    return _exitCode(exitCodes);
-  }
-
-  /// Return the number of non-zeros in [exitCodes].
-  /// [exitCodes] A list contains the exit codes from iterating the [File]s.
-  int _defectAmount(final List<int> exitCodes) {
-    _log.debug(this, '_defectAmount()', 'Start counting the amount of defects.');
-    int amount = 0;
-    for (final int code in exitCodes) {
-      if (code != 0) {
-        amount++;
-      }
-    }
-    _log.debug(this, '_defectAmount()', 'End counting the amount of defects. amount: $amount');
-    return amount;
-  }
-
-  /// Return exit code after the iteration of [File]s.
-  int _exitCode(final List<int> exitCodes) {
-    _log.debug(this, '_exitCode()', 'Start getting the exit code.');
-    int exitCode = 0;
-    if (exitCodes.contains(2)) {
-      exitCode = 2;
-    }
-    _log.debug(this, '_exitCode()', 'End getting the exit code. code: $exitCode');
-    return exitCode;
   }
 
 }

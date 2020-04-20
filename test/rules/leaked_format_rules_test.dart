@@ -5,6 +5,7 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import 'package:dart_style_rin/report/ignored_report.dart';
 import 'package:dart_style_rin/rules/ignored_rules.dart';
 import 'package:dart_style_rin/rules/leaked_check_rules.dart';
 import 'package:dart_style_rin/rules/leaked_format_rules.dart';
@@ -21,7 +22,7 @@ void main() {
           IgnoredRules(),
           (Source source) {
             used = true;
-            return 0;
+            return IgnoredReport();
           }
         ),
         (Source source) {
@@ -38,7 +39,7 @@ void main() {
         IgnoredRules(),
         (Source source) {
           used = true;
-          return 0;
+          return IgnoredSource();
         }
       ).format(
         IgnoredSource()

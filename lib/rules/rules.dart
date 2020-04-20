@@ -5,7 +5,9 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import '../feedback/feedback.dart';
 import '../log/log.dart';
+import '../report/report.dart';
 import '../rule/rule.dart';
 import '../source/source.dart';
 
@@ -22,56 +24,32 @@ class Rules {
   /// For logging.
   final Log _log;
 
-  /// Check the source code whether it is formatted correctly or not.
-  /// It will iterate the list of [Rule]s and return the exit code.
-  /// 0 means the source code is correctly formatted.
-  /// 2 means the source code is not corrected formatted.
+  /// Iterate the [Rule]s and let them check the source code.
   /// [source] Target source code.
-  int check(final Source source) {
+  Report check(final Source source) {
     _log.debug(this, 'check()', 'Start checking the source.');
-    final List<int> exitCodes = <int>[];
+    final Report report = Report(_log);
     for (final Rule rule in _list) {
-      exitCodes.add(
-        rule.check(source)
-      );
-    }
-    _log.debug(this, 'check(Source)', 'End checking the source.');
-    return _exitCode(exitCodes);
-  }
-
-  /// Format the source code.
-  /// It will iterate the list of [Rule]s and return the exit code.
-  /// 0 means success.
-  /// 2 means errors.
-  /// It performs the formatting only if the source was not formatted correctly.
-  /// [source] Target source code.
-  int format(final Source source) {
-    _log.debug(this, 'format()', 'Start formatting the source.');
-    final List<int> exitCodes = <int>[];
-    for (final Rule rule in _list) {
-      if (rule.check(source) != 0) {
-        exitCodes.add(
-          rule.format(source)
-        );
+      final List<Feedback> feedbackList = rule.check(source);
+      if (feedbackList.isNotEmpty) {
+        report.addFeedback(feedbackList);
       }
     }
-    int exitCode = 0;
-    if (exitCodes.isNotEmpty) {
-      exitCode = _exitCode(exitCodes);
-    }
-    _log.debug(this, 'format(Source)', 'End formatting the source.');
-    return exitCode;
+    _log.debug(this, 'check(Source)', 'End checking the source.');
+    return report;
   }
 
-  /// Return exit code after the iteration of [Rule]s.
-  int _exitCode(final List<int> exitCodes) {
-    _log.debug(this, '_exitCode()', 'Start getting the exit code.');
-    int exitCode = 0;
-    if (exitCodes.contains(2)) {
-      exitCode = 2;
+  /// Iterate the [Rule]s and let them format the source code.
+  /// It will return the formatted [Source].
+  /// [source] Target source code.
+  Source format(final Source source) {
+    _log.debug(this, 'format()', 'Start formatting the source.');
+    Source formattedSource = source;
+    for (final Rule rule in _list) {
+      formattedSource = rule.format(source);
     }
-    _log.debug(this, '_exitCode()', 'End getting the exit code. code: $exitCode');
-    return exitCode;
+    _log.debug(this, 'format(Source)', 'End formatting the source.');
+    return formattedSource;
   }
 
 }

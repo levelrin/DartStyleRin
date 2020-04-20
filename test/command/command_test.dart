@@ -9,40 +9,45 @@ import 'package:dart_style_rin/args/ignored_args.dart';
 import 'package:dart_style_rin/args/leaked_check_args.dart';
 import 'package:dart_style_rin/args/leaked_files_args.dart';
 import 'package:dart_style_rin/command/command.dart';
-import 'package:dart_style_rin/files/leaked_code_files.dart';
+import 'package:dart_style_rin/files/ignored_files.dart';
+import 'package:dart_style_rin/files/leaked_check_files.dart';
+import 'package:dart_style_rin/files/silent_files.dart';
 import 'package:dart_style_rin/log/silent_log.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Command', () {
-    test('.run() should exit code from Files.check if --check if true.', () {
+    test('.run() should return exit code from Files.check if --check is true.', () {
       expect(
         Command(
           LeakedCheckArgs(
             LeakedFilesArgs(
               IgnoredArgs(),
-              LeakedCodeFiles(0, 2)
+              LeakedCheckFiles(
+                IgnoredFiles(),
+                false
+              )
             ),
             true
           ),
           SilentLog()
         ).run(),
-        0
+        2
       );
     });
-    test('.run() should exit code from Files.format if --check if false.', () {
+    test('.run() should return exit code from Files.format if --check is false.', () {
       expect(
         Command(
           LeakedCheckArgs(
             LeakedFilesArgs(
               IgnoredArgs(),
-              LeakedCodeFiles(0, 2)
+              SilentFiles()
             ),
             false
           ),
           SilentLog()
         ).run(),
-        2
+        0
       );
     });
   });
