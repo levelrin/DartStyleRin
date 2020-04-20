@@ -5,6 +5,7 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import 'package:dart_style_rin/feedback/feedback.dart';
 import 'package:dart_style_rin/rule/ignored_rule.dart';
 import 'package:dart_style_rin/rule/leaked_check_rule.dart';
 import 'package:dart_style_rin/source/ignored_source.dart';
@@ -16,18 +17,18 @@ void main() {
       expect(
         LeakedCheckRule(
           IgnoredRule(),
-          false
+          <Feedback>[]
         ).check(
           IgnoredSource()
         ),
-        false
+        <Feedback>[]
       );
     });
     test('.format() should use the original object.', () {
       expect(
         () => LeakedCheckRule(
           IgnoredRule(),
-          true
+          <Feedback>[]
         ).format(
           IgnoredSource()
         ),

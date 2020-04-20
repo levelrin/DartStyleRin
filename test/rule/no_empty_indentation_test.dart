@@ -12,13 +12,13 @@ import 'package:test/test.dart';
 
 void main() {
   group('NoEmptyIndentation', () {
-    test('.check() should return false if empty indentation found.', () {
+    test('.check() should give feedback if empty indentation found.', () {
       final SilentLog log = SilentLog();
       expect(
         NoEmptyIndentation(log).check(
           Source(_invalid, log)
-        ),
-        false
+        ).length,
+        greaterThan(0)
       );
     });
     test('.check() should return true if empty indentation not found.', () {
@@ -26,8 +26,8 @@ void main() {
       expect(
         NoEmptyIndentation(log).check(
           Source(_valid, log)
-        ),
-        true
+        ).length,
+        0
       );
     });
     test('.format() should remove empty indentations.', () {

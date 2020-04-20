@@ -5,36 +5,35 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import '../feedback/feedback.dart';
 import '../source/source.dart';
 import 'ignored_rule.dart';
 import 'rule.dart';
 
 /// It's for testing.
-/// You can inject the [bool] and it will simply return that.
+/// You can inject the [Feedback] list and it will simply return that.
 /// It's a decorator and will use the original object for other methods.
 class LeakedCheckRule implements Rule {
 
   /// Primary constructor.
-  // ignore: avoid_positional_boolean_parameters
-  const LeakedCheckRule(this._origin, this._check);
+  const LeakedCheckRule(this._origin, this._feedbackList);
 
   /// Secondary constructor.
   /// We will use [IgnoredRule] as the original object.
   /// Use this constructor when you don't care about other methods.
-  // ignore: avoid_positional_boolean_parameters
-  factory LeakedCheckRule.throwable(final bool _check) {
-    return LeakedCheckRule(IgnoredRule(), _check);
+  factory LeakedCheckRule.throwable(final List<Feedback> _feedbackList) {
+    return LeakedCheckRule(IgnoredRule(), _feedbackList);
   }
 
   /// We will use this for other methods.
   final Rule _origin;
 
   /// We will return this.
-  final bool _check;
+  final List<Feedback> _feedbackList;
 
   @override
-  bool check(final Source source) {
-    return _check;
+  List<Feedback> check(final Source source) {
+    return _feedbackList;
   }
 
   @override

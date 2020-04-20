@@ -5,6 +5,7 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import '../report/report.dart';
 import '../source/source.dart';
 import 'rules.dart';
 
@@ -26,7 +27,7 @@ class LeakedCheckRules implements Rules {
   final Function _callback;
 
   @override
-  bool check(final Source source) {
+  Report check(final Source source) {
     return _callback(source);
   }
 

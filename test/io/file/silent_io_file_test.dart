@@ -23,8 +23,8 @@ void main() {
     test('.readAsStringSync() should use the original object.', () {
       const String content = 'content';
       expect(
-        const SilentIoFile(
-          LeakedContentIoFile(content)
+        SilentIoFile(
+          LeakedContentIoFile.ignoreOthers(content)
         ).readAsStringSync(),
         same(content)
       );

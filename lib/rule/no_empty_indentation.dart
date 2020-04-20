@@ -5,6 +5,7 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import '../feedback/feedback.dart';
 import '../line/line.dart';
 import '../log/log.dart';
 import '../source/source.dart';
@@ -20,19 +21,24 @@ class NoEmptyIndentation implements Rule {
   final Log _log;
 
   @override
-  bool check(final Source source) {
+  List<Feedback> check(final Source source) {
     _log.debug(this, 'check()', 'Start checking the empty indentation.');
-    bool pass = true;
+    final List<Feedback> feedbackList = <Feedback>[];
     for (final Line line in source.lines()) {
       final RegExp regex = RegExp(r'^\s+$');
       final String text = line.text();
       if (regex.hasMatch(text)) {
-        _log.info('Found an empty indentation. ${line.toString()}');
-        pass = false;
+        feedbackList.add(
+          Feedback(
+            line,
+            'Found an empty indentation.',
+            _log
+          )
+        );
       }
     }
-    _log.debug(this, 'check()', 'End checking the empty indentation. pass: $pass');
-    return pass;
+    _log.debug(this, 'check()', 'End checking the empty indentation.');
+    return feedbackList;
   }
 
   @override

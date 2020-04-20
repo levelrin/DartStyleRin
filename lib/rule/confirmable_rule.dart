@@ -5,6 +5,7 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import '../feedback/feedback.dart';
 import '../source/silent_source.dart';
 import '../source/source.dart';
 import 'rule.dart';
@@ -20,9 +21,9 @@ class ConfirmableRule implements Rule {
   bool _formatCalled = false;
 
   @override
-  bool check(final Source source) {
+  List<Feedback> check(final Source source) {
     _checkCalled = true;
-    return true;
+    return <Feedback>[];
   }
 
   @override

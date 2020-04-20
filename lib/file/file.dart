@@ -7,6 +7,7 @@
 
 import 'dart:io' as io;
 import '../log/log.dart';
+import '../report/report.dart';
 import '../rules/rules.dart';
 import '../source/source.dart';
 
@@ -34,13 +35,21 @@ class File {
   /// True means the file is correctly formatted.
   /// False means not.
   bool check() {
-    _log.debug(this, 'check()', 'Let Rules to check the source.');
-    return _rules.check(
+    _log.debug(this, 'check()', 'Start checking the source with Rules.');
+    final Report report = _rules.check(
       Source(
         _ioFile.readAsStringSync(),
         _log
       )
     );
+    bool pass = true;
+    if (!report.pass()) {
+      _log.info('Issues on ${_ioFile.path}:');
+      report.print();
+      _log.info('');
+      pass = false;
+    }
+    return pass;
   }
 
   /// Apply [Rules] to format the file.

@@ -12,14 +12,8 @@ void main() {
   group('LeakedContentIoFile', () {
     test('.readAsStringSync() should return the injected content.', () {
       expect(
-        const LeakedContentIoFile('apple').readAsStringSync(),
+        LeakedContentIoFile.ignoreOthers('apple').readAsStringSync(),
         'apple'
-      );
-    });
-    test('should throw an exception for other methods.', () {
-      expect(
-        () => const LeakedContentIoFile('banana').path,
-        throwsUnsupportedError
       );
     });
   });

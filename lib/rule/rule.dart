@@ -5,6 +5,7 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import '../feedback/feedback.dart';
 import '../source/source.dart';
 
 /// It represents a formatting rule.
@@ -12,10 +13,10 @@ import '../source/source.dart';
 abstract class Rule {
 
   /// Check the source code whether it is formatted correctly or not.
-  /// True means the code is correctly formatted.
-  /// False mans not.
+  /// Returns the list of feedback.
+  /// Empty list means no feedback.
   /// [source] Target source code.
-  bool check(final Source source);
+  List<Feedback> check(final Source source);
 
   /// Format the source code.
   /// It will return the formatted [Source].

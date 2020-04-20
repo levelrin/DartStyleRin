@@ -5,7 +5,9 @@
  * See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
  */
 
+import '../feedback/feedback.dart';
 import '../log/log.dart';
+import '../report/report.dart';
 import '../rule/rule.dart';
 import '../source/source.dart';
 
@@ -23,19 +25,18 @@ class Rules {
   final Log _log;
 
   /// Iterate the [Rule]s and let them check the source code.
-  /// True means all [Rule]s say there is no issue with the source code.
-  /// False the source code violates some [Rule]s.
   /// [source] Target source code.
-  bool check(final Source source) {
+  Report check(final Source source) {
     _log.debug(this, 'check()', 'Start checking the source.');
-    bool pass = true;
+    final Report report = Report(_log);
     for (final Rule rule in _list) {
-      if (!rule.check(source)) {
-        pass = false;
+      final List<Feedback> feedbackList = rule.check(source);
+      if (feedbackList.isNotEmpty) {
+        report.addFeedback(feedbackList);
       }
     }
     _log.debug(this, 'check(Source)', 'End checking the source.');
-    return pass;
+    return report;
   }
 
   /// Iterate the [Rule]s and let them format the source code.
