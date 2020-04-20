@@ -10,6 +10,7 @@ import 'source.dart';
 
 /// It's for testing.
 /// You can use this when you don't care about the result of its behavior.
+// ignore: avoid_implementing_value_types
 class SilentSource implements Source {
 
   @override

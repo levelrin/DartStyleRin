@@ -11,6 +11,7 @@ import 'source.dart';
 /// No methods should be used from this object.
 /// It will throw exceptions if any method is called.
 /// You can use this when you need something just to fill out the parameters.
+// ignore: avoid_implementing_value_types
 class IgnoredSource implements Source {
 
   @override

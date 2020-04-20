@@ -7,8 +7,7 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:dart_style_rin/io/file/ignored_io_file.dart';
-
+import 'ignored_io_file.dart';
 import 'leaked_path_io_file.dart';
 
 /// It's for testing.
