@@ -16,7 +16,7 @@ void main() {
       final SilentLog log = SilentLog();
       expect(
         NoEmptyIndentation(log).check(
-          Source(_invalid, log)
+          Source(_invalid(), log)
         ).length,
         greaterThan(0)
       );
@@ -34,7 +34,7 @@ void main() {
       final SilentLog log = SilentLog();
       expect(
         NoEmptyIndentation(log).format(
-          Source(_invalid, log)
+          Source(_invalid(), log)
         ),
         Source(_valid, log)
       );
@@ -42,13 +42,23 @@ void main() {
   });
 }
 
-const String _invalid = '''
+/// Convert placeholder characters into spaces and tabs.
+String _invalid() {
+  return _rawInvalid
+    .replaceAll('**', '\t')
+    .replaceAll('--', ' ');
+}
+
+/// We could not use spaces and tabs because it will get feedback from our own rule.
+/// That's why we use some placeholders such as ** and --.
+/// We will convert those placeholder characters by [_invalid].
+const String _rawInvalid = '''
 class Apple {
-  
+**
   String color() {
     return "Red";
   }
-  
+--
 }
 ''';
 
