@@ -12,6 +12,7 @@ import '../source/source.dart';
 import 'rule.dart';
 
 /// It checks if the code contains consecutive empty lines and remove them.
+/// If the first line is empty, it will count it as a consecutive empty line.
 class NoConsecutiveEmptyLines implements Rule {
 
   /// Constructor.
@@ -49,6 +50,12 @@ class NoConsecutiveEmptyLines implements Rule {
       source.toString().replaceAll(
         RegExp(r'[\r\n]{3,}', multiLine: false),
         '\n\n'
+      ).replaceAll(
+        RegExp(r'^[\r\n]+', multiLine: false),
+        ''
+      ).replaceAll(
+        RegExp(r'[\r\n]{2,}$', multiLine: false),
+        '\n'
       ),
       _log
     );

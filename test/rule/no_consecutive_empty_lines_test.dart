@@ -48,13 +48,15 @@ String _invalid() {
 }
 
 const String _invalidWithPlaceholder = '''
+*
+*
 class Apple {
 *
   String color() {
     return "Red";
   }
 
-}
+}*
 ''';
 
 const String _valid = '''
