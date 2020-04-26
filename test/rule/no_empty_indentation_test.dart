@@ -21,7 +21,7 @@ void main() {
         greaterThan(0)
       );
     });
-    test('.check() should return true if empty indentation not found.', () {
+    test('.check() should not give feedback if empty indentation not found.', () {
       final SilentLog log = SilentLog();
       expect(
         NoEmptyIndentation(log).check(
