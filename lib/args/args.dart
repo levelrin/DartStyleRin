@@ -15,6 +15,7 @@ import '../log/log.dart';
 import '../rule/no_consecutive_empty_lines.dart';
 import '../rule/no_empty_indentation.dart';
 import '../rule/no_empty_lines_between_imports.dart';
+import '../rule/no_trailing_spaces.dart';
 import '../rule/rule.dart';
 import '../rules/rules.dart';
 
@@ -103,6 +104,7 @@ class Args {
       <Rule>[
         NoEmptyIndentation(log),
         NoConsecutiveEmptyLines(log),
+        NoTrailingSpaces(log),
         NoEmptyLinesBetweenImports(log)
       ],
       log
