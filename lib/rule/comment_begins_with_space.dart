@@ -27,10 +27,10 @@ class CommentBeginsWithSpace implements Rule {
     for (final Line line in source.lines()) {
       final String text = line.text();
       final bool hasComment = text.contains(
-        RegExp(r'\/{2,3}')
+        RegExp(r'(?<!https?:)\/{2,3}')
       );
       final bool commentStartsWithOneSpace = text.contains(
-        RegExp(r'\/{2,3} \S')
+        RegExp(r'(?<!https?:)\/{2,3} \S')
       );
       if (hasComment && !commentStartsWithOneSpace) {
         feedbackList.add(
@@ -47,7 +47,7 @@ class CommentBeginsWithSpace implements Rule {
     _log.debug(this, 'format()', 'Add a space at the beginning of the comment.');
     return Source(
       source.toString().replaceAll(
-        RegExp(r'(?<=\/{2,})(?=\S)(?=[^\/])'),
+        RegExp(r'(?<=(?<!https?:)\/{2,})(?=\S)(?!\/)', multiLine: true),
         ' '
       ),
       _log
