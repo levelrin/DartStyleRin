@@ -63,7 +63,7 @@ class File {
         )
       ).toString()
     );
-    _log.debug(this, 'format()', 'End rewritting the file.');
+    _log.debug(this, 'format()', 'End rewriting the file.');
   }
 
 }
