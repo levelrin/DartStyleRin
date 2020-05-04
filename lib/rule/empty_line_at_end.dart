@@ -36,6 +36,7 @@ class EmptyLineAtEnd implements Rule {
 
   @override
   Source format(final Source source) {
+    _log.debug(this, 'format()', 'Add a new line at the end of the file.');
     return Source(
       '${source.toString()}\n',
       _log
