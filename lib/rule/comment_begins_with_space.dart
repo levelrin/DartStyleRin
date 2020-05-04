@@ -32,7 +32,10 @@ class CommentBeginsWithSpace implements Rule {
       final bool commentStartsWithOneSpace = text.contains(
         RegExp(r'(?<!https?:)\/{2,3} \S')
       );
-      if (hasComment && !commentStartsWithOneSpace) {
+      final bool emptyComment = text.contains(
+        RegExp(r'^\s*\/{2,3}$')
+      );
+      if (hasComment && !commentStartsWithOneSpace && !emptyComment) {
         feedbackList.add(
           Feedback(line, 'Comments must start with one space.', _log)
         );
