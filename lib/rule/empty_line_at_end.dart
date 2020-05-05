@@ -36,11 +36,18 @@ class EmptyLineAtEnd implements Rule {
 
   @override
   Source format(final Source source) {
-    _log.debug(this, 'format()', 'Add a new line at the end of the file.');
-    return Source(
-      '${source.toString()}\n',
-      _log
-    );
+    _log.debug(this, 'format()', 'Start adding a new line at the end of the file.');
+    Source result;
+    if (source.toString().endsWith('\n')) {
+      result = source;
+    } else {
+      result = Source(
+        '${source.toString()}\n',
+        _log
+      );
+    }
+    _log.debug(this, 'format()', 'End adding a new line at the end of the file.');
+    return result;
   }
 
 }

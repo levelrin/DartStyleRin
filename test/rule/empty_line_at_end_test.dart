@@ -39,6 +39,15 @@ void main() {
         Source(_valid, log)
       );
     });
+    test('.format() should not change format of the already valid code.', () {
+      final SilentLog log = SilentLog();
+      expect(
+        EmptyLineAtEnd(log).format(
+          Source(_valid, log)
+        ),
+        Source(_valid, log)
+      );
+    });
   });
 }
 
