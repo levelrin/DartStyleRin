@@ -46,7 +46,7 @@ class Rules {
     _log.debug(this, 'format()', 'Start formatting the source.');
     Source formattedSource = source;
     for (final Rule rule in _list) {
-      formattedSource = rule.format(source);
+      formattedSource = rule.format(formattedSource);
     }
     _log.debug(this, 'format(Source)', 'End formatting the source.');
     return formattedSource;
