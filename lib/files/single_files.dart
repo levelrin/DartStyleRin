@@ -7,7 +7,6 @@
 
 import 'dart:io' as io;
 import '../io/directory/leaked_entities_dir.dart';
-import '../io/file/leaked_path_io_file.dart';
 import '../log/log.dart';
 import 'files.dart';
 
@@ -38,7 +37,7 @@ class SingleFiles implements Files {
     final Files files = _filesFactory(
       LeakedEntitiesDir(
         <io.File>[
-          LeakedPathIoFile(_filePath)
+          io.File(_filePath)
         ]
       )
     );
@@ -60,7 +59,7 @@ class SingleFiles implements Files {
     final Files files = _filesFactory(
       LeakedEntitiesDir(
         <io.File>[
-          LeakedPathIoFile(_filePath)
+          io.File(_filePath)
         ]
       )
     );

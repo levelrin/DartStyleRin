@@ -36,7 +36,7 @@ class Line {
   /// Line number.
   /// The value of first line should be 1.
   int num() {
-    _log.debug(this, 'num()', 'Return line number: $_num}');
+    _log.debug(this, 'num()', 'Return line number: $_num');
     return _num;
   }
 
