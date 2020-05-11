@@ -11,6 +11,7 @@ import '../files/single_files.dart';
 import '../log/log.dart';
 import '../rule/comment_begins_with_space.dart';
 import '../rule/empty_line_at_end.dart';
+import '../rule/indentation.dart';
 import '../rule/no_consecutive_empty_lines.dart';
 import '../rule/no_empty_indentation.dart';
 import '../rule/no_empty_lines_between_imports.dart';
@@ -106,6 +107,7 @@ class Args {
         NoTrailingSpaces(log),
         NoEmptyLinesBetweenImports(log),
         CommentBeginsWithSpace(log),
+        Indentation(log),
         EmptyLineAtEnd(log)
       ],
       log
