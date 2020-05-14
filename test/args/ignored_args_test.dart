@@ -16,15 +16,15 @@ void main() {
     });
     test('.debug() should throw an exception.', () {
       expect(
-          () => IgnoredArgs().debug(),
+        () => IgnoredArgs().debug(),
         throwsUnsupportedError
       );
     });
     test('.files() should throw an exception.', () {
       expect(
-          () => IgnoredArgs().files(
-            SilentLog()
-          ),
+        () => IgnoredArgs().files(
+          SilentLog()
+        ),
         throwsUnsupportedError
       );
     });

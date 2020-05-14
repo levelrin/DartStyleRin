@@ -26,7 +26,7 @@ void main() {
       io.Directory oneFileDir;
       SingleFiles(
         'apple.dart',
-          (io.Directory dir) {
+        (io.Directory dir) {
           oneFileDir = dir;
           return SilentFiles();
         },

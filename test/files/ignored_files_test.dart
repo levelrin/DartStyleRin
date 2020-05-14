@@ -15,7 +15,7 @@ void main() {
     });
     test('.format() should throw an exception.', () {
       expect(
-          () => IgnoredFiles().format(),
+        () => IgnoredFiles().format(),
         throwsUnsupportedError
       );
     });

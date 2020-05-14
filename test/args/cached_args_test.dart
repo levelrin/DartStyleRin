@@ -27,7 +27,7 @@ void main() {
       CachedArgs(
         CallbackArgs(
           SilentArgs(),
-            () {
+          () {
             counter++;
           }
         )
@@ -39,7 +39,7 @@ void main() {
       CachedArgs(
         CallbackArgs(
           SilentArgs(),
-            () {
+          () {
             counter++;
           }
         )

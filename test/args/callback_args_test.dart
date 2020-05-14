@@ -33,7 +33,7 @@ void main() {
       bool called = false;
       CallbackArgs(
         SilentArgs(),
-          () {
+        () {
           called = true;
         }
       ).files(

@@ -61,7 +61,7 @@ void main() {
               const LeakedPathIoFile('banana.dart')
             ]
           ),
-            (io.File ioFile, Log log) {
+          (io.File ioFile, Log log) {
             File file;
             if (fileNum == 0) {
               file = LeakedCheckFile(
@@ -100,7 +100,7 @@ void main() {
     });
     test('.format() should not throw an exception if the directory contains subdirectory.', () {
       expect(
-          () => Files(
+        () => Files(
           LeakedEntitiesDir(
             <io.FileSystemEntity>[
               SilentDir()
