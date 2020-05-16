@@ -13,8 +13,12 @@ void main() {
   /// Invalid content.
   String invalid;
 
+  /// Valid content.
+  String valid;
+
   setUpAll(() {
     invalid = io.File('test/rule/comment_begins_with_space/invalid.txt').readAsStringSync();
+    valid = io.File('test/rule/comment_begins_with_space/valid.txt').readAsStringSync();
   });
 
   group('CommentBeginsWithSpace', () {
@@ -31,7 +35,7 @@ void main() {
       final SilentLog log = SilentLog();
       expect(
         CommentBeginsWithSpace(log).check(
-          Source(_valid, log)
+          Source(valid, log)
         ).length,
         0
       );
@@ -42,28 +46,8 @@ void main() {
         CommentBeginsWithSpace(log).format(
           Source(invalid, log)
         ),
-        Source(_valid, log)
+        Source(valid, log)
       );
     });
   });
 }
-
-const String _valid = '''
-// Apple
-///
-/// Banana
-Orange // Kiwi
-    /// Cat
-    ///
-    // Dog
-    Bird // Fish
-/// https://www.levelrin.com
-/// Copyright (c) 2020 Rin (https://www.levelrin.com)
-/// This file has been created under the terms of the MIT License.
-/// See the details at https://github.com/levelrin/DartStyleRin/blob/master/LICENSE
-/// ```dart
-/// if (1 == 1) {
-///   print('Do something.');
-/// } // <- Let's say this is the value of the text.
-/// ```
-''';
