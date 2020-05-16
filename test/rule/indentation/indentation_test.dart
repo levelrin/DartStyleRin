@@ -13,8 +13,12 @@ void main() {
   /// Invalid content.
   String invalid;
 
+  /// Valid content.
+  String valid;
+
   setUpAll(() {
     invalid = io.File('test/rule/indentation/invalid.txt').readAsStringSync();
+    valid = io.File('test/rule/indentation/valid.txt').readAsStringSync();
   });
 
   group('Indentation', () {
@@ -31,7 +35,7 @@ void main() {
       final SilentLog log = SilentLog();
       expect(
         Indentation(log).check(
-          Source(_valid, log)
+          Source(valid, log)
         ).length,
         0
       );
@@ -42,49 +46,9 @@ void main() {
         Indentation(log).format(
           Source(invalid, log)
         ),
-        Source(_valid, log)
+        Source(valid, log)
       );
     });
   });
-}
-
-const String _valid = '''
-class Type {
-
-  int _field1;
-
-  int _field2;
-
-  void method1(Param param1, Param param2) {
-    param1.method1(
-      'A'.toLowerCase(),
-      'b'.toUpperCase(),
-      3.toString()
-    );
-    param2.method2(
-      <String>[
-        'Apple',
-        'Banana',
-        'Orange'
-      ]
-    );
-  }
-
-  void method2(Param param1, Param param2) {
-    test('yoi', () {
-      param1.one();
-    });
-    test('yoi2', () {
-      // uno
-    }, skip: param1.two());
-    if (param2.one()) {
-      // one
-    } else if (param3.two()) {
-      // two
-    } else {
-      // three
-    }
-  }
 
 }
-''';

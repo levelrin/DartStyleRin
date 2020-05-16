@@ -1,3 +1,9 @@
+  /// Code snippet:
+    /// ```dart
+/// if (1 == 1) {
+  ///   print('Yoi');
+        /// }
+  /// ```
 class Type {
 
 int _field1;

@@ -77,8 +77,9 @@ class Indentation implements Rule {
       '_currentIndentDelta()',
       'Start calculating the current indent delta. text: $text'
     );
+    final String modifiedText = _excludeComments(text);
     int delta = 0;
-    if (_startsWithClosing(text)) {
+    if (_startsWithClosing(modifiedText)) {
       delta = -2;
     }
     _log.debug(
@@ -110,12 +111,13 @@ class Indentation implements Rule {
       '_nextIndentDelta()',
       'Start calculating the next indent delta. text: $text'
     );
+    final String modifiedText = _excludeComments(text);
     int delta = _constrainedDelta(
-      _bracketsIndentDelta(text)
+      _bracketsIndentDelta(modifiedText)
     );
-    if (_isWingShaped(text)) {
+    if (_isWingShaped(modifiedText)) {
       delta = 2;
-    } else if (_allClosed(text)) {
+    } else if (_allClosed(modifiedText)) {
       delta = 0;
     }
     _log.debug(
@@ -327,6 +329,15 @@ class Indentation implements Rule {
       spaces.write(' ');
     }
     return '${spaces.toString()}${text.trimLeft()}';
+  }
+
+  /// We've had a problem that the indentation was miscalculated by the
+  /// brackets inside of the comments.
+  /// To avoid such problems, we should exclude the commented text.
+  /// It will return the text without commented parts.
+  /// [text] A particular line of code.
+  String _excludeComments(final String text) {
+    return text.replaceAll(RegExp(r'\/{2,}.*'), '');
   }
 
 }
