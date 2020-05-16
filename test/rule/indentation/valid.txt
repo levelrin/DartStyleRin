@@ -41,4 +41,21 @@ class Type {
     }
   }
 
+  void method3() {
+    String a = '{';
+    String b = "(";
+    String c = '[';
+    String d = '}';
+    print('one');
+    String e = ')';
+    print('two');
+    String f = ']';
+    String g = "{([";
+    print('three');
+    String h = '})]';
+    print('four');
+    'Apple'.replaceAll(RegExp(r'\/{2,}.*'), '');
+    print('five');
+  }
+
 }

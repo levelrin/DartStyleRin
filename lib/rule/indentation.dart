@@ -77,7 +77,9 @@ class Indentation implements Rule {
       '_currentIndentDelta()',
       'Start calculating the current indent delta. text: $text'
     );
-    final String modifiedText = _excludeComments(text);
+    final String modifiedText = _excludeLiterals(
+      _excludeComments(text)
+    );
     int delta = 0;
     if (_startsWithClosing(modifiedText)) {
       delta = -2;
@@ -111,7 +113,9 @@ class Indentation implements Rule {
       '_nextIndentDelta()',
       'Start calculating the next indent delta. text: $text'
     );
-    final String modifiedText = _excludeComments(text);
+    final String modifiedText = _excludeLiterals(
+      _excludeComments(text)
+    );
     int delta = _constrainedDelta(
       _bracketsIndentDelta(modifiedText)
     );
@@ -337,7 +341,47 @@ class Indentation implements Rule {
   /// It will return the text without commented parts.
   /// [text] A particular line of code.
   String _excludeComments(final String text) {
+    _log.debug(this, '_excludeComments()', 'Exclude the comments from the text: $text');
     return text.replaceAll(RegExp(r'\/{2,}.*'), '');
+  }
+
+  /// We've had a problem that the indentation was miscalculated by the
+  /// brackets as string literals.
+  /// To avoid such problems, we should exclude the string literals.
+  /// It will return the text without string literals.
+  /// [text] A particular line of code.
+  String _excludeLiterals(final String text) {
+    _log.debug(
+      this,
+      '_excludeLiterals()',
+      'Start excluding the string literals from the text: $text'
+    );
+    final StringBuffer result = StringBuffer();
+    bool literalStarted = false;
+    String startingLiteral = '';
+    for (final int code in text.runes) {
+      final String char = String.fromCharCode(code);
+      switch (char) {
+        case '\'':
+        case '"':
+          if (startingLiteral == char) {
+            startingLiteral = '';
+            literalStarted = false;
+          } else {
+            startingLiteral = char;
+            literalStarted = true;
+          }
+      }
+      if (!literalStarted) {
+        result.write(char);
+      }
+    }
+    _log.debug(
+      this,
+      '_excludeLiterals()',
+      'End excluding the string literals from the text. result: $result'
+    );
+    return result.toString();
   }
 
 }
