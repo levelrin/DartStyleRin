@@ -26,15 +26,15 @@ class CommentBeginsWithSpace implements Rule {
       final bool hasComment = text.contains(
         RegExp(r'(?<!https?:)\/{2,3}')
       );
-      final bool commentStartsWithOneSpace = text.contains(
-        RegExp(r'(?<!https?:)\/{2,3} \S')
+      final bool commentStartsWithSpace = text.contains(
+        RegExp(r'(?<!https?:)\/{2,3} +\S')
       );
       final bool emptyComment = text.contains(
         RegExp(r'^\s*\/{2,3}$')
       );
-      if (hasComment && !commentStartsWithOneSpace && !emptyComment) {
+      if (hasComment && !commentStartsWithSpace && !emptyComment) {
         feedbackList.add(
-          Feedback(line, 'Comments must start with one space.', _log)
+          Feedback(line, 'Comments must start with a space.', _log)
         );
       }
     }
