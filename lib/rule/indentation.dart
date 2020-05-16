@@ -83,6 +83,8 @@ class Indentation implements Rule {
     int delta = 0;
     if (_startsWithClosing(modifiedText)) {
       delta = -2;
+    } else if (_startsWithDot(modifiedText)) {
+      delta = 2;
     }
     _log.debug(
       this,
@@ -123,6 +125,8 @@ class Indentation implements Rule {
       delta = 2;
     } else if (_allClosed(modifiedText)) {
       delta = 0;
+    } else if (_startsWithDot(modifiedText)) {
+      delta = delta - 2;
     }
     _log.debug(
       this,
@@ -300,6 +304,12 @@ class Indentation implements Rule {
       'End checking if the text is about closing the scope. result: $result'
     );
     return result;
+  }
+
+  /// Check if the [text] starts with dots.
+  /// [text] A particular line of code.
+  bool _startsWithDot(final String text) {
+    return text.trimLeft().startsWith('.');
   }
 
   /// Return the number of spaces that the [text] begins with.

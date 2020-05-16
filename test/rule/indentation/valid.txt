@@ -58,4 +58,15 @@ class Type {
     print('five');
   }
 
+  void method4(Param param) {
+    param
+      .one()
+      .two()
+      .three();
+    param
+      ..four()
+      ..five()
+      ..six();
+  }
+
 }
