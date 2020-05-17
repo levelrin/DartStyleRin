@@ -16,13 +16,13 @@ void main() {
     });
     test('.print() should throw an exception.', () {
       expect(
-          () => IgnoredReport().print(),
+        () => IgnoredReport().print(),
         throwsUnsupportedError
       );
     });
     test('.pass() should throw an exception.', () {
       expect(
-          () => IgnoredReport().pass(),
+        () => IgnoredReport().pass(),
         throwsUnsupportedError
       );
     });

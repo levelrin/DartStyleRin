@@ -22,9 +22,9 @@ void main() {
     });
     test('.files() should not throw exception.', () {
       expect(
-          () => SilentArgs().files(
-            SilentLog()
-          ),
+        () => SilentArgs().files(
+          SilentLog()
+        ),
         returnsNormally
       );
     });

@@ -15,7 +15,7 @@ void main() {
     });
     test('.toString() should not throw an exception.', () {
       expect(
-          () => SilentSource().toString(),
+        () => SilentSource().toString(),
         returnsNormally
       );
     });

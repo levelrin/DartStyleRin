@@ -1,0 +1,107 @@
+  /// Code snippet:
+    /// ```dart
+/// if (1 == 1) {
+  ///   print('Yoi');
+        /// }
+  /// ```
+class Type {
+
+int _field1;
+
+    int _field2;
+
+void method1(Param param1, Param param2) {
+param1.method1(
+    'A'.toLowerCase(),
+'b'.toUpperCase(),
+  3.toString()
+);
+    param2.method2(
+    <String>[
+      'Apple',
+'Banana',
+'Orange'
+]
+      );
+}
+
+    void method2(Param param1, Param param2) {
+          test('yoi', () {
+                  param1.one();
+              });
+                  test('yoi2', () {
+                    // uno
+}, skip: param1.two());
+              if (param2.one()) {
+                    // one
+                  } else if (param3.two()) {
+                    // two
+              } else {
+                    // three
+                  }
+  }
+
+  void method3() {
+        String a = '{';
+  String b = "(";
+            String c = '[';
+String d = '}';
+      print('one');
+      String e = ')';
+      print('two');
+            String f = ']';
+String g = "{([";
+      print('three');
+  String h = '})]';
+      print('four');
+    'Apple'.replaceAll(RegExp(r'\/{2,}.*'), '');
+          print('five');
+    }
+
+    void method4(Param param) {
+        param
+            .one()
+            .two()
+            .three();
+        param
+            ..four()
+            ..five()
+            ..six();
+      }
+
+        int method5(final String param) {
+          int value = 0;
+          switch (param) {
+              case 'Apple':
+          case 'Banana':
+      case 'Orange':
+            value = 1;
+                break;
+            case 'Kiwi':
+          value = 2;
+      break;
+          default:
+            value = 3;
+            break;
+          }
+          return value;
+        }
+
+          void method6() {
+final String animal = 'Cat';
+            switch (animal) {
+      case 'Cat':
+              case '"':
+              if (1 == 1) {
+                        print('true');
+              } else {
+            print('false');
+                      }
+              break;
+  case 'Bird':
+            print('Hamster');
+                    break;
+    }
+          }
+
+}

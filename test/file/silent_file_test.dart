@@ -15,7 +15,7 @@ void main() {
     });
     test('.format() should not throw an exception', () {
       expect(
-          () => SilentFile().format(),
+        () => SilentFile().format(),
         returnsNormally
       );
     });

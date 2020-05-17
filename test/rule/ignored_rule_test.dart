@@ -18,7 +18,7 @@ void main() {
     });
     test('.format() should throw an exception.', () {
       expect(
-          () => IgnoredRule().format(
+        () => IgnoredRule().format(
           IgnoredSource()
         ),
         throwsUnsupportedError

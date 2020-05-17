@@ -1,0 +1,7 @@
+class Apple {
+
+  String color() {
+    return "Red";
+  }
+
+}
