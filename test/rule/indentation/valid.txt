@@ -69,4 +69,39 @@ class Type {
       ..six();
   }
 
+  int method5(final String param) {
+    int value = 0;
+    switch (param) {
+      case 'Apple':
+      case 'Banana':
+      case 'Orange':
+        value = 1;
+        break;
+      case 'Kiwi':
+        value = 2;
+        break;
+      default:
+        value = 3;
+        break;
+    }
+    return value;
+  }
+
+  void method6() {
+    final String animal = 'Cat';
+    switch (animal) {
+      case 'Cat':
+      case '"':
+        if (1 == 1) {
+          print('true');
+        } else {
+          print('false');
+        }
+        break;
+      case 'Bird':
+        print('Hamster');
+        break;
+    }
+  }
+
 }

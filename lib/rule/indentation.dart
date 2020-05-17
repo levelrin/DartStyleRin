@@ -22,9 +22,10 @@ class Indentation implements Rule {
     _log.debug(this, 'check()', 'Start checking the indentation.');
     final List<Feedback> feedbackList = <Feedback>[];
     int expectedIndentSize = 0;
-    for (final Line line in source.lines()) {
+    final List<Line> lines = source.lines();
+    for (final Line line in lines) {
       final String text = line.text();
-      expectedIndentSize = expectedIndentSize + _currentIndentDelta(text);
+      expectedIndentSize = expectedIndentSize + _currentIndentDelta(line, lines);
       if (text.isNotEmpty && _indentSize(text) != expectedIndentSize) {
         feedbackList.add(
           Feedback(line, 'Expected indent size: $expectedIndentSize', _log)
@@ -41,9 +42,10 @@ class Indentation implements Rule {
     _log.debug(this, 'format()', 'Indent the code.');
     final StringBuffer code = StringBuffer();
     int expectedIndentSize = 0;
+    final List<Line> lines = source.lines();
     for (final Line line in source.lines()) {
       String text = line.text();
-      expectedIndentSize = expectedIndentSize + _currentIndentDelta(text);
+      expectedIndentSize = expectedIndentSize + _currentIndentDelta(line, lines);
       if (text.isNotEmpty && _indentSize(text) != expectedIndentSize) {
         text = _indentedText(text, expectedIndentSize);
       }
@@ -56,7 +58,7 @@ class Indentation implements Rule {
     );
   }
 
-  /// The number of indentation changes for the current [text].
+  /// The number of indentation changes for the current [line].
   ///
   /// For example, let's say we have the following code:
   /// ```dart
@@ -64,27 +66,37 @@ class Indentation implements Rule {
   ///   print('Do something.');
   /// } // <- Let's say this is the value of the text.
   /// ```
-  /// As you can see, the indentation of the [text] should be decreased by 2
+  /// As you can see, the indentation of the [line] should be decreased by 2
   /// compare to the previous line.
   ///
   /// In such cases, this method can be useful to adjust the indentation of
-  /// the current [text].
+  /// the current [line].
   ///
-  /// [text] A particular line of code.
-  int _currentIndentDelta(final String text) {
+  /// [line] A particular line of code.
+  /// [lines] The entire source code.
+  int _currentIndentDelta(final Line line, final List<Line> lines) {
     _log.debug(
       this,
       '_currentIndentDelta()',
-      'Start calculating the current indent delta. text: $text'
+      'Start calculating the current indent delta. line: $line'
     );
     final String modifiedText = _excludeLiterals(
-      _excludeComments(text)
+      _excludeComments(line.text())
     );
     int delta = 0;
     if (_startsWithClosing(modifiedText)) {
       delta = -2;
     } else if (_startsWithDot(modifiedText)) {
       delta = 2;
+    }
+    final List<Line> firstSwitchCases = <Line>[];
+    final List<Line> switchCloses = <Line>[];
+    _analyzeSwitch(lines, firstSwitchCases, switchCloses);
+    if (_isCase(modifiedText) && !firstSwitchCases.contains(line)) {
+      delta = delta - 2;
+    }
+    if (switchCloses.contains(line)) {
+      delta = delta - 2;
     }
     _log.debug(
       this,
@@ -127,6 +139,9 @@ class Indentation implements Rule {
       delta = 0;
     } else if (_startsWithDot(modifiedText)) {
       delta = delta - 2;
+    }
+    if (_isCase(modifiedText)) {
+      delta = delta + 2;
     }
     _log.debug(
       this,
@@ -309,6 +324,7 @@ class Indentation implements Rule {
   /// Check if the [text] starts with dots.
   /// [text] A particular line of code.
   bool _startsWithDot(final String text) {
+    _log.debug(this, '_startsWithDot()', 'Check if the text starts with a dot. text: $text');
     return text.trimLeft().startsWith('.');
   }
 
@@ -377,7 +393,8 @@ class Indentation implements Rule {
           if (startingLiteral == char) {
             startingLiteral = '';
             literalStarted = false;
-          } else {
+            result.write(char);
+          } else if (!literalStarted) {
             startingLiteral = char;
             literalStarted = true;
           }
@@ -392,6 +409,84 @@ class Indentation implements Rule {
       'End excluding the string literals from the text. result: $result'
     );
     return result.toString();
+  }
+
+  /// In order to calculate the indentation of switch statements, we need to
+  /// make [_currentIndentDelta] to return -2 when we encounter the 'case'
+  /// keyword in most cases.
+  /// However, that would be wrong for the first 'case' statement.
+  /// To filter out such exceptional case, we need to identify those exceptional lines.
+  /// Those first 'case' statements will be stored to [firstCases].
+  ///
+  /// Additionally, we need to make [_currentIndentDelta] to return (current value - 2)
+  /// when the switch statement is closed.
+  /// Those closing lines will be stored to [closes].
+  /// [lines] The entire source code.
+  /// [firstCases] It contains the first case statements.
+  /// [closes] It contains the closing lines of switch statements.
+  void _analyzeSwitch(final List<Line> lines, final List<Line> firstCases, final List<Line> closes) {
+    _log.debug(
+      this,
+      '_analyzeSwitch()',
+      'Start analyzing switch statements. lines: $lines'
+    );
+    int switchAmount = 0;
+    int firstCaseAmount = 0;
+    int openingBracketAmount = 0;
+    for (final Line line in lines) {
+      final String text = _excludeLiterals(
+        _excludeComments(
+          line.text().trim()
+        )
+      );
+      if (text.contains(RegExp(r'switch\s[(](.*)[)]\s{0,}\{'))) {
+        switchAmount++;
+      }
+      if (_isCase(text) && firstCaseAmount < switchAmount) {
+        firstCases.add(line);
+        firstCaseAmount++;
+      }
+      for (final int code in text.runes) {
+        final String char = String.fromCharCode(code);
+        switch (char) {
+          case '{':
+            if (switchAmount > 0) {
+              openingBracketAmount++;
+            }
+            break;
+          case '}':
+            if (switchAmount > 0 && switchAmount == openingBracketAmount) {
+              switchAmount--;
+              firstCaseAmount--;
+              openingBracketAmount--;
+              closes.add(line);
+            } else if (switchAmount > 0) {
+              openingBracketAmount--;
+            }
+            break;
+        }
+      }
+    }
+    _log.debug(
+      this,
+      '_analyzeSwitch()',
+      'End analyzing switch statements. firstCases: $firstCases closes: $closes'
+    );
+  }
+
+  /// It detects whether the [text] is a case statement or not.
+  /// Assuming comments and string literals are removed.
+  /// [text] A particular line of text.
+  bool _isCase(final String text) {
+    final bool result = text.trim().startsWith(
+      RegExp(r'(\bcase\b|\bdefault\b).*:')
+    );
+    _log.debug(
+      this,
+      '_isCase()',
+      'Check if the text is a case statement. result: $result text: $text'
+    );
+    return result;
   }
 
 }
