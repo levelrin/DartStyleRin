@@ -13,11 +13,15 @@ void main() {
   /// Invalid content.
   String invalid;
 
+  /// Invalid content that contains the indented if statement.
+  String invalidIndentedIf;
+
   /// Valid content.
   String valid;
 
   setUpAll(() {
     invalid = io.File('test/rule/spaces_in_if/invalid.txt').readAsStringSync();
+    invalidIndentedIf = io.File('test/rule/spaces_in_if/invalid_indented_if.txt').readAsStringSync();
     valid = io.File('test/rule/spaces_in_if/valid.txt').readAsStringSync();
   });
 
@@ -27,6 +31,15 @@ void main() {
       expect(
         SpacesInIf(log).check(
           Source(invalid, log)
+        ).length,
+        greaterThan(0)
+      );
+    });
+    test('.check() should give feedback if the if-statements have spaces in a wrong way 2.', () {
+      final SilentLog log = SilentLog();
+      expect(
+        SpacesInIf(log).check(
+          Source(invalidIndentedIf, log)
         ).length,
         greaterThan(0)
       );

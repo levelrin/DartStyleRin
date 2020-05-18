@@ -42,9 +42,9 @@ class SpacesInIf implements Rule {
     _log.debug(this, 'format()', 'Put the correct number of spaces into the if statements.');
     return Source(
       source.toString().replaceAll(
-        RegExp(r'(?<=if)\s*(?=[(].*[)]\s*{)', multiLine: true), ' '
+        RegExp(r'(?<=\s*if)\s*(?=[(].*[)]\s*{)', multiLine: true), ' '
       ).replaceAll(
-        RegExp(r'(?<=if\s*[(].*[)])\s*(?={)', multiLine: true), ' '
+        RegExp(r'(?<=\s*if\s*[(].*[)])\s*(?={)', multiLine: true), ' '
       ).replaceAll(
         RegExp(r'(?<=})\s*(?=else\s+if\s*[(].*[)]\s*{)', multiLine: true), ' '
       ).replaceAll(
@@ -69,7 +69,7 @@ class SpacesInIf implements Rule {
     _log.debug(this, '_isIfStatement()', 'Check if the line is a if statement. text: $text');
     return text.contains(
       RegExp(
-        r'^if\s*[(].*[)]\s*{|}\s*else\s+if\s*[(].*[)]\s*{|}\s*else\s*{'
+        r'^\s*if\s*[(].*[)]\s*{|}\s*else\s+if\s*[(].*[)]\s*{|}\s*else\s*{'
       )
     );
   }
@@ -85,7 +85,7 @@ class SpacesInIf implements Rule {
     );
     return text.contains(
       RegExp(
-        r'^if\s{1,1}[(].*[)]\s{1,1}{|}\s{1,1}else\s{1,1}if\s{1,1}[(].*[)]\s{1,1}{|}\s{1,1}else\s{1,1}{'
+        r'^\s*if\s{1,1}[(].*[)]\s{1,1}{|}\s{1,1}else\s{1,1}if\s{1,1}[(].*[)]\s{1,1}{|}\s{1,1}else\s{1,1}{'
       )
     );
   }
