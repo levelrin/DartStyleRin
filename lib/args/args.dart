@@ -17,6 +17,7 @@ import '../rule/no_empty_indentation.dart';
 import '../rule/no_empty_lines_between_imports.dart';
 import '../rule/no_trailing_spaces.dart';
 import '../rule/rule.dart';
+import '../rule/spaces_in_if.dart';
 import '../rules/rules.dart';
 
 /// It represents the command line arguments from the user.
@@ -107,6 +108,7 @@ class Args {
         NoTrailingSpaces(log),
         NoEmptyLinesBetweenImports(log),
         CommentBeginsWithSpace(log),
+        SpacesInIf(log),
         Indentation(log),
         EmptyLineAtEnd(log)
       ],
