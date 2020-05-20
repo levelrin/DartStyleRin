@@ -19,6 +19,7 @@ import '../rule/no_trailing_spaces.dart';
 import '../rule/rule.dart';
 import '../rule/spaces_in_for.dart';
 import '../rule/spaces_in_if.dart';
+import '../rule/spaces_in_while.dart';
 import '../rules/rules.dart';
 
 /// It represents the command line arguments from the user.
@@ -111,6 +112,7 @@ class Args {
         CommentBeginsWithSpace(log),
         SpacesInIf(log),
         SpacesInFor(log),
+        SpacesInWhile(log),
         Indentation(log),
         EmptyLineAtEnd(log)
       ],
