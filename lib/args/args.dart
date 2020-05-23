@@ -19,6 +19,7 @@ import '../rule/no_trailing_spaces.dart';
 import '../rule/rule.dart';
 import '../rule/spaces_in_for.dart';
 import '../rule/spaces_in_if.dart';
+import '../rule/spaces_in_switch.dart';
 import '../rule/spaces_in_while.dart';
 import '../rules/rules.dart';
 
@@ -113,6 +114,7 @@ class Args {
         SpacesInIf(log),
         SpacesInFor(log),
         SpacesInWhile(log),
+        SpacesInSwitch(log),
         Indentation(log),
         EmptyLineAtEnd(log)
       ],
