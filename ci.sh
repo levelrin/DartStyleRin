@@ -5,6 +5,8 @@ set -o pipefail
 
 echo "Build Start"
 
+dart script/check_headers.dart
+
 pub get
 
 analyzerReport=$(dartanalyzer lib test)
