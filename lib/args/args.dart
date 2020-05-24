@@ -15,6 +15,7 @@ import '../rule/indentation.dart';
 import '../rule/no_consecutive_empty_lines.dart';
 import '../rule/no_empty_indentation.dart';
 import '../rule/no_empty_lines_between_imports.dart';
+import '../rule/no_line_breaks_before_equal.dart';
 import '../rule/no_trailing_spaces.dart';
 import '../rule/rule.dart';
 import '../rule/spaces_in_for.dart';
@@ -115,6 +116,7 @@ class Args {
         SpacesInFor(log),
         SpacesInWhile(log),
         SpacesInSwitch(log),
+        NoLineBreaksBeforeEqual(log),
         Indentation(log),
         EmptyLineAtEnd(log)
       ],

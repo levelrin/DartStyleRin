@@ -1,0 +1,9 @@
+const String apple = 'Apple';
+
+final int banana = 1;
+
+Type type = Type(
+  param1,
+  param2,
+  param3
+);
